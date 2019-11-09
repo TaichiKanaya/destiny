@@ -5,6 +5,10 @@
   font-style: normal;
 }
 
+body{
+  color:white;
+}
+
 .title{
   font-style: italic;
   font-size: 40px;

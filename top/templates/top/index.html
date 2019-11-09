@@ -1,0 +1,114 @@
+{% load static %}
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/uikit.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.2/vue.min.js"></script>
+</head>
+<body>
+<div class="back">
+    <div class="uk-animation-fade">
+        <span class="uk-navbar-item title">Destiny　- 運命の選択肢 -</span>
+        <spanf class="uk-navbar-item sub-title">選択に迷ったらぜひご利用ください！幸運を祈ります！<br/></spanf>
+        <div id="app">
+            <form action="{% url 'top:index' %}" method="post">
+                {% csrf_token %}
+                <div class="uk-text-center">
+                    <button id="btnStart" type="button" v-show="showStart" @click="onStart();"
+                            class="uk-button uk-button-primary">占いを始める
+                    </button>
+                </div>
+                <template v-if="showSelect">
+                    <div class="uk-text-center">
+                        <p>何択で占いますか？</p>
+                        <div class="uk-form-controls">
+                            <template v-for="n in {{max_choices}}">
+                                <div v-if="!(n==1)">
+                                    <label><input type="radio" class="uk-radio" name="choice" v-bind:value="n"
+                                                  v-model="choice">
+                                        <span v-text="n"></span>択から選ぶ</label>
+                                </div>
+                            </template>
+                            <button id="btnSelect" type="button" @click="onSelect();"
+                                    class="uk-button uk-button-primary uk-margin-top">選択肢入力へ
+                            </button>
+                        </div>
+                    </div>
+                </template>
+                <template v-if="showForm">
+                    <div class="uk-margin uk-text-center">
+                        <div class="uk-form-controls uk-margin-bottom" v-for="(todo, n) in formList">
+                            <label v-bind:for="'choice_'+ n">選択肢<span v-text="n+1"></span>：</label>
+                            <input class="uk-input uk-form-width-medium" type="text"
+                                   v-bind:id="'choice_' + n" v-bind:name="'choice_' + n" placeholder="選択肢を入力してください"
+                                   v-model="todo.form"/>
+                        </div>
+                        <button id="btnExecute" type="button" @click="onExecute();"
+                                class="uk-button uk-button-primary uk-margin-top">占う
+                        </button>
+                    </div>
+                </template>
+                <template v-if="showResult">
+                    <div class="uk-margin uk-text-center">
+                        <p class="uk-text-large uk-text-danger uk-margin" v-text="result"></p>
+                        を選択すると良いとの結果がでました！
+                    </div>
+                </template>
+                <template v-if="!showStart">
+                    <div class="uk-text-center uk-margin-medium-top">
+                        <button tyle="button" style="color:white;" class="uk-button uk-button-text">トップページへ戻る
+                        </button>
+                    </div>
+                </template>
+            </form>
+        </div>
+    </div>
+    <div class="uk-animation-fade uk-margin-top" style="text-align:center;color:white">
+        © 2019 Attakait All rights reserved.
+    </div>
+</div>
+<script type="text/javascript">
+	var app = new Vue({
+		el : '#app',
+		data : {
+		    showStart: true,
+            showSelect: false,
+            showForm: false,
+            showResult: false,
+            choice: 2,
+            formList: [],
+            result: ""
+		},
+		methods : {
+			onStart : function() {
+		       this.showStart = false;
+			   this.showSelect = true;
+			},
+			onSelect : function(){
+			   this.showSelect = false;
+			   for(var i = 0; i < this.choice; i++) {
+			     this.formList.push({id: i, form:""});
+               }
+               this.showForm = true;
+			},
+			onExecute : function(){
+			   this.showForm = false;
+			   this.showResult = true;
+			   axios.defaults.xsrfCookieName = 'csrftoken'
+               axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
+			   axios.post('/top/telling',{
+					formList: this.formList
+			    }).then(function(response) {
+					this.result = response.data.result;
+				}.bind(this)).catch(function(error) {
+					console.log(error);
+				})
+			}
+		}
+	});
+</script>
+</body>
+</html>
