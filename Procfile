@@ -1,1 +1,1 @@
-web: gunicorn destiny.wsgi
+web: gunicorn destiny.wsgi --log-file -
