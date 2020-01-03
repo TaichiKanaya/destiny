@@ -18,5 +18,6 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     url(r'^top/', include('top.urls')),
+    url(r'', include('top.urls')),
 ]
 urlpatterns += staticfiles_urlpatterns()
