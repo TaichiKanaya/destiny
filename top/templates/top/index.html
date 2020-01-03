@@ -6,13 +6,13 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/uikit.min.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.2/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
 </head>
 <body>
 <div class="back">
     <div class="uk-animation-fade">
-        <span class="uk-navbar-item title">Destiny　- 運命の選択肢 -</span>
-        <spanf class="uk-navbar-item sub-title">選択に迷ったらぜひご利用ください！幸運を祈ります！<br/></spanf>
+        <span class="uk-navbar-item title">Destiny - 運命の選択肢 -</span>
+        <spanf class="uk-navbar-item sub-title">選択に迷ったあなたのために・・・<br/></spanf>
         <div id="app">
             <form action="{% url 'top:index' %}" method="post">
                 {% csrf_token %}
