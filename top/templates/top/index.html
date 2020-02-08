@@ -10,12 +10,12 @@
     <title>Destiny | あったかIT</title>
 </head>
 <body>
+        <div id="app">
+            <form action="{% url 'top:index' %}" method="post">
 <div class="main-content">
     <div class="uk-animation-fade">
         <span class="uk-navbar-item title">Destiny - 運命の選択肢 -</span>
         <span class="uk-navbar-item sub-title mb30">選択に迷ったときのヘルパーツール<br/></span>
-        <div id="app">
-            <form action="{% url 'top:index' %}" method="post">
                 {% csrf_token %}
                 <div class="uk-text-center">
                     <button id="btnStart" type="button" v-show="showStart" @click="onStart();"
@@ -63,13 +63,13 @@
                         <a href="/top">トップページへ戻る</a>
                     </div>
                 </template>
-            </form>
-        </div>
     </div>
     <div class="uk-animation-fade uk-margin-top" style="text-align:center;">
         © 2019 Attakait All rights reserved.
     </div>
 </div>
+                            </form>
+        </div>
 <script type="text/javascript">
 	var app = new Vue({
 		el : '#app',
