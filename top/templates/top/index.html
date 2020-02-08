@@ -55,7 +55,6 @@
                 <template v-if="showResult">
                     <div class="uk-margin uk-text-center">
                         <p class="uk-text-large uk-text-danger uk-margin" v-text="result"></p>
-                        を選択すると良いとの結果がでました！
                     </div>
                 </template>
                 <template v-if="!showStart">
@@ -102,7 +101,12 @@
 			   axios.post('/top/telling',{
 					formList: this.formList
 			    }).then(function(response) {
-					this.result = response.data.result;
+			        var res = response.data.result;
+			        if(res == ""){
+			            this.result = "選択肢の入力がありませんでした";
+			        }else{
+			            this.result = res + "を選択すると良いとの結果です";
+			        }
 				}.bind(this)).catch(function(error) {
 					console.log(error);
 				});
