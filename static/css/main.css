@@ -37,6 +37,7 @@ a{
   font-size:1rem;
   font-family: 'Togalite';
   color:white;
+  min-height:30px !important;
 }
 
 .main-content {
