@@ -7,18 +7,19 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+    <title>Destiny | あったかIT</title>
 </head>
 <body>
 <div class="main-content">
     <div class="uk-animation-fade">
         <span class="uk-navbar-item title">Destiny - 運命の選択肢 -</span>
-        <span class="uk-navbar-item sub-title">選択に迷ったあなたのために・・・<br/></span>
-        <div id="app" style="z-index:100">
+        <span class="uk-navbar-item sub-title">選択に迷ったときのヘルパーツール<br/></span>
+        <div id="app">
             <form action="{% url 'top:index' %}" method="post">
                 {% csrf_token %}
                 <div class="uk-text-center">
                     <button id="btnStart" type="button" v-show="showStart" @click="onStart();"
-                            class="uk-button uk-button-primary">占いを始める
+                            class="uk-button uk-button-primary mt20 mb20">占いを始める
                     </button>
                 </div>
                 <template v-if="showSelect">
@@ -43,7 +44,7 @@
                         <div class="uk-form-controls uk-margin-bottom" v-for="(todo, n) in formList">
                             <label v-bind:for="'choice_'+ n">選択肢<span v-text="n+1"></span>：</label>
                             <input class="uk-input uk-form-width-medium" type="text"
-                                   v-bind:id="'choice_' + n" v-bind:name="'choice_' + n" placeholder="選択肢を入力してください"
+                                   v-bind:id="'choice_' + n" v-bind:name="'choice_' + n" placeholder="選択肢を入力"
                                    v-model="todo.form"/>
                         </div>
                         <button id="btnExecute" type="button" @click="onExecute();"
@@ -59,14 +60,13 @@
                 </template>
                 <template v-if="!showStart">
                     <div class="uk-text-center uk-margin-medium-top">
-                        <button tyle="button" style="color:white;" class="uk-button uk-button-text">トップページへ戻る
-                        </button>
+                        <a href="/top">トップページへ戻る</a>
                     </div>
                 </template>
             </form>
         </div>
     </div>
-    <div class="uk-animation-fade uk-margin-top" style="text-align:center;color:white">
+    <div class="uk-animation-fade uk-margin-top" style="text-align:center;">
         © 2019 Attakait All rights reserved.
     </div>
 </div>
@@ -97,15 +97,15 @@
 			onExecute : function(){
 			   this.showForm = false;
 			   this.showResult = true;
-			   axios.defaults.xsrfCookieName = 'csrftoken'
-               axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
+			   axios.defaults.xsrfCookieName = 'csrftoken';
+               axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 			   axios.post('/top/telling',{
 					formList: this.formList
 			    }).then(function(response) {
 					this.result = response.data.result;
 				}.bind(this)).catch(function(error) {
 					console.log(error);
-				})
+				});
 			}
 		}
 	});

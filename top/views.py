@@ -8,18 +8,16 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 
 @ensure_csrf_cookie
 def index(request):
-    return render(request, 'top/index.html', {'max_choices': 5})
+    return render(request, 'top/index.html', {'max_choices': 3})
 
 
 def telling(request):
     if request.method == 'GET':
         return JsonResponse({})
 
-    datas = json.loads(request.body)
+    formList = json.loads(request.body)
     records = []
-    for record in datas["formList"]:
+    for record in formList["formList"]:
         records.append(record["form"])
-    print(records)
     random.shuffle(records)
-    print(records)
     return JsonResponse({"result": records[0]})
