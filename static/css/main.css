@@ -22,20 +22,15 @@ body{
   color:white;
 }
 
-.back{
-  background: url(/static/images/back.jpg) no-repeat center;
+.main-content {
+  background: url("/static/images/back.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
   background-size: cover;
-  position: relative;
-  height:100%;
-}
-.back::before{
-  background-color: rgba(0,0,0,0.4);
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  content: ' ';
+  overflow: hidden;
+  width: 100vw;
+  min-height: 100vh;
 }
 
 .btn-stitch {
